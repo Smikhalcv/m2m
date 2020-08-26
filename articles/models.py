@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from django.utils.html import format_html
 
 
@@ -24,6 +25,7 @@ class Tegs(models.Model):
     scopes = models.ManyToManyField(
         Article,
         related_name='scopes',
+        through='Relationship'
     )
 
     class Meta:
@@ -32,3 +34,8 @@ class Tegs(models.Model):
 
     def __str__(self):
         return self.topic
+
+class Relationship(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='Статьи')
+    tegs = models.ForeignKey(Tegs, on_delete=models.CASCADE, related_name='Теги')
+    main_teg = models.BooleanField()
