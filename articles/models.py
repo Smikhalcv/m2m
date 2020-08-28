@@ -1,6 +1,4 @@
 from django.db import models
-from django import forms
-from django.utils.html import format_html
 
 
 class Article(models.Model):
@@ -25,7 +23,8 @@ class Tegs(models.Model):
     scopes = models.ManyToManyField(
         Article,
         related_name='scopes',
-        through='Relationship'
+        through='Relationship',
+        through_fields=('tegs', 'article')
     )
 
     class Meta:
@@ -36,6 +35,9 @@ class Tegs(models.Model):
         return self.topic
 
 class Relationship(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='Статьи')
-    tegs = models.ForeignKey(Tegs, on_delete=models.CASCADE, related_name='Теги')
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    tegs = models.ForeignKey(Tegs, on_delete=models.CASCADE)
     main_teg = models.BooleanField()
+
+    class Meta:
+        ordering = ["-main_teg"]

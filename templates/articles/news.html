@@ -13,8 +13,9 @@
           <a href="#">{{ article.title }}</a>
         </h4>
         <p class="card-text">{{ article.text }}</p>
-        {% for scope in article.scopes.all %}
-          <span class="badge {% if scope.main_teg %}badge-primary{% else %}badge-secondary{% endif %}">{{ scope.topic }}</span>
+        {% for scope in article.relationship_set.all %}
+          <span
+                  class="badge {% if scope.main_teg %}badge-primary{% else %}badge-secondary{% endif %}">{{scope.tegs.topic}}</span>
         {% endfor %}
       </div>
     </div>
